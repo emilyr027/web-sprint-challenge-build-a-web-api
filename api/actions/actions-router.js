@@ -1,7 +1,7 @@
 // Write your "actions" router here!
 const express = require('express')
 const Actions = require('./actions-model')
-const router = express.Router();
+const router = express.Router()
 
 const { validateActionId, validateAction } = require('../middleware/middleware')
 
@@ -24,20 +24,10 @@ router.post('/', validateAction, (req, res) => {
     .then((action) => {
       res.status(201).json(action)
     })
-    .catch((error) => {
+    .catch((err) => {
       res.status(500).json({ message: 'error'})
     })
   });
-  
-// router.post('./', validateAction, async (req, res, next) => {
-//     try {
-//         const actionInfo = req.body
-//         const data = await Actions.insert(actionInfo)
-//         res.status(201).json(data)
-//     } catch(err) {
-//         next(err)
-//     }
-// })
 
 router.put('/:id', validateActionId, async (req, res, next) => {
     try {
@@ -47,7 +37,7 @@ router.put('/:id', validateActionId, async (req, res, next) => {
             const edits = await Actions.update(id, data)
             res.status(200).json(edits)
         } else {
-            res.status(400).json({ message: 'more data needed'})
+            res.status(400).json({ message: 'more data needed to edit action'})
         }
     } catch(err) {
         next(err)
@@ -57,10 +47,10 @@ router.put('/:id', validateActionId, async (req, res, next) => {
 router.delete('/:id', validateActionId, async (req, res, next) => {
     try {
         const { id } = req.params
-        const deleteAction = await Actions.remove(id)
+        const data = await Actions.remove(id)
         res.status(200).json({ 
             message: `Action ${id} has been deleted`, 
-            delete: deleteAction})
+            delete: data})
     } catch(err) {
         next(err)
     }
