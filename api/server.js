@@ -11,5 +11,4 @@ server.use('/api/actions', Actions)
 server.use('/api/projects', Projects )
 
 module.exports = server;
-///
-///Server Notes for Code Grade
+//more notes to help
