@@ -1,7 +1,7 @@
 const Actions = require('../actions/actions-model')
 const Projects = require('../projects/projects-model')
 
-const validateActionsId = async (req, res, next) {
+const validateActionId = async (req, res, next) => {
     const { id } = req.params
     try {
         const action = await Actions.get(id)
@@ -29,7 +29,7 @@ const validateAction = async (req, res, next) => {
                 next()
             }
         } else {
-            res.status(400).json({ message: `there is no record of project id: ${id} in our system` })
+            res.status(400).json({ message: `there is no record of project id: ${req.body.project_id} in our system` })
         }
     } catch(err) {
         res.status(400).json({
@@ -39,7 +39,7 @@ const validateAction = async (req, res, next) => {
     }
 }
 
-const validateProjectsId = async (req, res, next) {
+const validateProjectId = async (req, res, next) => {
     const { id } = req.params
     try {
         const project = await Projects.get(id)
@@ -58,4 +58,4 @@ const validateProjectsId = async (req, res, next) {
 }
 
 
-  module.exports = { validateActionsId, validateAction, validateProjectsId }
+  module.exports = { validateActionId, validateAction, validateProjectId }
