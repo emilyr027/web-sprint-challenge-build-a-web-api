@@ -11,4 +11,3 @@ server.use('/api/actions', Actions)
 server.use('/api/projects', Projects )
 
 module.exports = server;
-//more notes to help

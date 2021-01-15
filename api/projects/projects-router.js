@@ -5,6 +5,7 @@ const router = express.Router()
 
 const { validateProjectId } = require('../middleware/middleware')
 
+// GET - find all projects
 router.get('/', async (req, res, next) => {
     try {
         const data = await Projects.get()
@@ -14,10 +15,12 @@ router.get('/', async (req, res, next) => {
     }
 })
 
+// GET - find a project based on id
 router.get('/:id', validateProjectId, async (req, res) => {
     res.status(200).json(req.project)
   })
 
+// GET - find all actions associated with a specific project id
 router.get('/:id/actions', validateProjectId, async (req, res, next) => {
     try {
         const { id } = req.params
@@ -28,6 +31,7 @@ router.get('/:id/actions', validateProjectId, async (req, res, next) => {
     }
   })
 
+// POST - add a new project
 router.post('/', async (req, res, next) => {
     if (!req.body.name || !req.body.description) {
         res.status(400).json({ message: 'missing name or description'})
@@ -41,6 +45,7 @@ router.post('/', async (req, res, next) => {
     }
   })
 
+// PUT - edit a project based on id
 router.put('/:id', validateProjectId, async (req, res, next) => {
     try {
         const { id } = req.params
@@ -56,6 +61,7 @@ router.put('/:id', validateProjectId, async (req, res, next) => {
     }
 })
 
+// DELETE - delete a project based on id
 router.delete('/:id', validateProjectId, async (req, res, next) => {
     try {
         const { id } = req.params
@@ -67,4 +73,5 @@ router.delete('/:id', validateProjectId, async (req, res, next) => {
         next(err)
     }
 })
+
 module.exports = router

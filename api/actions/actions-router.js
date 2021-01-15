@@ -5,6 +5,7 @@ const router = express.Router()
 
 const { validateActionId, validateAction } = require('../middleware/middleware')
 
+// GET - find all actions
 router.get('/', async (req, res, next) => {
     try {
         const data = await Actions.get()
@@ -14,10 +15,12 @@ router.get('/', async (req, res, next) => {
     }
 })
 
+// GET - find an action by id
 router.get('/:id', validateActionId, async (req, res) => {
     res.status(200).json(req.action)
   })
 
+// POST - add a new action
 router.post('/', validateAction, (req, res) => {
     const actionInfo = req.body
     Actions.insert(actionInfo)
@@ -29,6 +32,7 @@ router.post('/', validateAction, (req, res) => {
     })
   });
 
+// PUT - edit a specific action based on id
 router.put('/:id', validateActionId, async (req, res, next) => {
     try {
         const { id } = req.params
@@ -44,6 +48,7 @@ router.put('/:id', validateActionId, async (req, res, next) => {
     }
 })
 
+// DELETE - delete a specific action based on id
 router.delete('/:id', validateActionId, async (req, res, next) => {
     try {
         const { id } = req.params
