@@ -32,7 +32,7 @@ const validateAction = async (req, res, next) => {
             res.status(400).json({ message: `there is no record of project id: ${req.body.project_id} in our system` })
         }
     } catch(err) {
-        res.status(400).json({
+        res.status(500).json({
             message: 'unable to validate project id',
             error: err
         })

@@ -3,7 +3,7 @@ const express = require('express')
 const Actions = require('./actions-model')
 const router = express.Router();
 
-const { validateActionId, validateAction } = 
+const { validateActionId, validateAction } = require('../middleware/middleware')
 
 router.get('/', async (req, res, next) => {
     try {
@@ -18,14 +18,26 @@ router.get('/:id', validateActionId, async (req, res) => {
     res.status(200).json(req.action)
   })
 
-router.post('./', validateAction, async (req, res, next) => {
-    try {
-        const data = await Actions.insert(req.body)
-        res.status(201).json(data)
-    } catch(err) {
-        next(err)
-    }
-})
+router.post('/', validateAction, (req, res) => {
+    const actionInfo = req.body
+    Actions.insert(actionInfo)
+    .then((action) => {
+      res.status(201).json(action)
+    })
+    .catch((error) => {
+      res.status(500).json({ message: 'error'})
+    })
+  });
+  
+// router.post('./', validateAction, async (req, res, next) => {
+//     try {
+//         const actionInfo = req.body
+//         const data = await Actions.insert(actionInfo)
+//         res.status(201).json(data)
+//     } catch(err) {
+//         next(err)
+//     }
+// })
 
 router.put('/:id', validateActionId, async (req, res, next) => {
     try {
